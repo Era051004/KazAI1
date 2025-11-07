@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KazAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <button class="new-chat-btn" onclick="location.href='/new'">
+                    <span class="btn-icon">+</span>
+                    Жаңа чат
+                </button>
+            </div>
+            <div class="sidebar-footer">
+                <button class="clear-btn" onclick="location.href='/clear'">
+                    <span class="btn-icon">×</span>
+                    Тазарту
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-area">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="header-title">
+                    <div class="logo">KazAI</div>
+                    <div class="subtitle">Сейілхан Ержігіт (ПИ 22-11)</div>
+                </div>
+                <div class="language-selector">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="kz">KZ</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatContainer">
+                {% if chat_history %}
+                    {% for message in chat_history %}
+                        <div class="message {{ message.type }}-message">
+                            <div class="avatar {{ message.type }}-avatar">
+                                {% if message.type == 'user' %}С{% else %}AI{% endif %}
+                            </div>
+                            <div class="message-content">
+                                {{ message.content }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                <div class="welcome-container">
+                    <div class="welcome-icon">🤖</div>
+                    <div class="welcome-title">KazAI-ге қош келдіңіз!</div>
+                    <div class="welcome-subtitle">Мен сіздің AI көмекшісіңіз. Кез келген сұрақ қойыңыз, мен көмектесуге тырысамын!</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <form method="POST" action="/send" id="chatForm">
+                    <div class="input-container">
+                        <textarea class="message-input" name="message" placeholder="Хабарламаңызды осында енгізіңіз..." autocomplete="off" required></textarea>
+                        <button type="submit" class="send-button">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="disclaimer">
+                    KazAI - Сейілхан Ержігіт жобасы (ПИ 22-11)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
